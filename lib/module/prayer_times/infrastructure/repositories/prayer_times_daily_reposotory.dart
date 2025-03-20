@@ -16,17 +16,14 @@ class PrayerTimesDailyReposotory implements IPrayerTimesDailyReposotory {
   @override
   Future<Either<String, PrayerTimes>> getPrayerTimes(double lat, double long) async {
     try {
-      // 1️⃣ Coba ambil dari cache dulu
-      // final cachedData = await localDataSource.getCachedPrayerTimes(lat, long);
-      // if (cachedData != null) {
-      //   return Right(cachedData);
-      // }
+      final cachedData = await localDataSource.getCachedPrayerTimes(lat, long);
+      if (cachedData != null) {
+        return Right(cachedData);
+      }
 
-      // 2️⃣ Jika tidak ada, ambil dari API
       final remoteData = await remoteDataSource.getPrayerTimes(lat, long);
 
-      // 3️⃣ Simpan ke cache
-      // await localDataSource.cachePrayerTimes(remoteData, lat, long);
+      await localDataSource.cachePrayerTimes(remoteData, lat, long);
 
       return Right(remoteData);
     } catch (e) {

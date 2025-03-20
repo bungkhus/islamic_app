@@ -30,7 +30,6 @@ class PrayerTimesDailyLocaleDataSource implements IPrayerTimesDailyLocaleDataSou
       final data = jsonDecode(jsonString);
       final cachedDate = DateTime.parse(data['date']);
 
-      // Cek apakah cache masih valid (sama lokasi & tanggalnya)
       if (data['lat'] == lat && data['long'] == long && cachedDate.day == DateTime.now().day) {
         return PrayerTimes.fromJson(data['times']);
       }
