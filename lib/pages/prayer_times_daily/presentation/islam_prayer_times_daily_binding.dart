@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:islamic_app/module/prayer_times/infrastructure/data_sources/prayer_times_daily_locale_data_source.dart';
 import 'package:islamic_app/module/prayer_times/infrastructure/data_sources/prayer_times_daily_remote_data_source.dart';
 import 'package:islamic_app/module/prayer_times/infrastructure/repositories/prayer_times_daily_reposotory.dart';
+import 'package:islamic_app/pages/prayer_times_daily/domain/islam_prayer_times_daily_url.dart';
 import 'package:islamic_app/pages/prayer_times_daily/presentation/islam_prayer_times_daily_controller.dart';
 import 'package:islamic_app/pages/prayer_times_daily/presentation/islam_prayer_times_daily_use_case.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,9 +13,10 @@ class IslamPrayerTimesDailyBinding extends Bindings {
   void dependencies() {
     final prefs = Get.find<SharedPreferences>();
     final dio = Dio();
+    final url = IslamPrayerTimesDailyUrl();
     final repository = PrayerTimesDailyReposotory(
       localDataSource: PrayerTimesDailyLocaleDataSource(prefs), 
-      remoteDataSource: PrayerTimesDailyRemoteDataSource(dio)
+      remoteDataSource: PrayerTimesDailyRemoteDataSource(dio, url.baseUrl)
     );
     final useCase = IslamPrayerTimesDailyUseCase(repository);
 
